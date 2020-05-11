@@ -1,8 +1,12 @@
 import ElmeForm from './packages/form/index.js';
+import ElmeTable from './packages/table/index.js';
+import ElmeMenu from './packages/menu/index.js';
 
 
 const components = [
-  ElmeForm
+  ElmeForm,
+  ElmeMenu,
+  ElmeTable
 ]
 
 const install = function(Vue, opts = {}) {
@@ -18,5 +22,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default {
   install,
-  ElmeForm
+  ElmeForm,
+  ElmeMenu,
+  ElmeTable
 }
