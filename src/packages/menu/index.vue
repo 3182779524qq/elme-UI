@@ -2,9 +2,9 @@
   <div class="side_menu">
     <el-menu
       :default-active="onRoutes"
-      text-color="#ffffff"
-      active-text-color="#ffffff"
-      background-color="#343f51"
+      :text-color="textColor"
+      :active-text-color="activeColor"
+      :background-color="backgroundColor"
       router
       :default-openeds="opens"
     >
@@ -27,6 +27,7 @@ export default {
     };
   },
   props: {
+    // 菜单层级数组
     menuList: {
       type: Array,
       default: function() {
@@ -45,6 +46,27 @@ export default {
           }
         ];
       }
+    },
+    // 菜单的文字颜色（仅支持 hex 格式）
+    textColor: {
+      type: String,
+      default: function() {
+        return '#303133'
+      }
+    },
+    // 菜单的背景色（仅支持 hex 格式）
+    backgroundColor: {
+      type: String,
+      default: function() {
+        return '#ffffff'
+      }
+    },
+    // 当前激活菜单的文字颜色（仅支持 hex 格式）
+    activeColor: {
+      type: String,
+      default: function() {
+        return '#409EFF'
+      }
     }
   },
   computed: {
@@ -61,10 +83,6 @@ export default {
 };
 </script>
 <style scoped>
-/* // /deep/ .el-menu {
-//   border-right: 0;
-//   background-color: transparent;
-// } */
 .side_menu {
   display: block;
   overflow-y: scroll;
@@ -72,16 +90,12 @@ export default {
 .side_menu::-webkit-scrollbar {
   width: 0;
 }
-/* // /deep/ .el-submenu__title i {
-//   color: #fff;
-//   text-indent: 0;
-// } */
-.el-menu-item.is-active {
+/* .el-menu-item.is-active {
   background-color: #b86600 !important;
-}
-.el-menu--inline li {
+} */
   /* 二级菜单颜色 */
+/* .el-menu--inline li {
   background-color: #b87700 !important;
   text-indent: 10px;
-}
+} */
 </style>

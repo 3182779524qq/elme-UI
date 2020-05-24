@@ -2,7 +2,7 @@
   <div class="cfj_table">
     <el-table
       :border="border"
-      :data="tableData.tData"
+      :data="tData"
       :header-cell-style="headercellstyle"
       :row-style="rowstyle"
       :cell-style="cellstyle"
@@ -129,7 +129,7 @@
         :page-sizes="paginationJson.pageSize"
         :page-size="paginationJson.ispagination && tableAjax.data ? tableAjax.data.pageSize:''"
         :layout="paginationJson.layout"
-        :total="tableData.total||0"
+        :total="total||0"
       ></el-pagination>
     </div>
   </div>
@@ -140,6 +140,9 @@ export default {
   name: "ElmeTable",
   data() {
     return {
+      tData: [],
+      // 分页总条数--ajax请求渲染
+      total: 0,
       headercellstyle: {
         background: "#eaebed",
         fontSize: "14px",
@@ -268,11 +271,13 @@ export default {
             return;
           }
           if (this.tableAjax.callback) {
-            this.tableData.tData = this.tableAjax.callback(data);
+            let obj = this.tableAjax.callback(data)
+            this.tData = obj.tData;
+            this.total = obj.total;
           } else {
-            this.tableData.tData = data.list;
+            this.tData = data.list;
+            this.total = data.total;
           }
-          this.tableData.total = data.total;
         })
         .catch(error => {
           console.log(error);

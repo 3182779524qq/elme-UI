@@ -4,13 +4,14 @@
       <template v-if="item.children">
         <el-submenu :index="item.index" :key="item.index" v-if="item.show">
           <!-- <img :src="item.icon" alt=""> -->
-          <span slot="title"><img :src="item.icon" alt="">{{ item.title }}</span>
+          <span slot="title"><i v-if="item.icon" :class="item.icon" class="iconfont"></i><img v-if="item.img" :src="item.img" alt="">{{ item.title }}</span>
           <tree-menu :menuList="item.children"></tree-menu>
         </el-submenu>
       </template>
       <template v-else>
         <el-menu-item :index="item.index" :key="item.index" v-if="item.show">
-          <img :src="item.icon" alt="">
+          <img v-if="item.img" :src="item.img" alt="">
+          <i v-if="item.icon" :class="item.icon" class="iconfont"></i>
           <span slot="title">{{ item.title }}</span>
         </el-menu-item>
       </template>
@@ -52,16 +53,5 @@ img{
 }
 .sub_menu::-webkit-scrollbar {
   width: 0;
-}
-/* /deep/ .el-submenu__title i {
-  color: #fff;
-  text-indent: 0;
-} */
-.el-menu-item.is-active {
-  background-color: #0b1930 !important;
-}
-.el-menu--inline li {
-  /* 二级菜单颜色 */
-  background-color: #343f51;
 }
 </style>
