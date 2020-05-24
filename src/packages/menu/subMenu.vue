@@ -55,3 +55,8 @@ img{
   width: 0;
 }
 </style>
+<style>
+.side_menu .el-menu {
+  border-right: none;
+}
+</style>

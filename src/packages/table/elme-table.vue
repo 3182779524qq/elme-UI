@@ -136,6 +136,7 @@
 </template>
 <script>
 import axios from "axios";
+var qs = require('qs');
 export default {
   name: "ElmeTable",
   data() {
@@ -174,6 +175,8 @@ export default {
       type: Object,
       default: function() {
         return {
+          pageKey:'pageNum',
+          sizeKey:'pageSize',
           pageSize: [10, 20, 50, 100],//每页多少条
           pageAlign: "right",//对齐方式
           ispagination: true,//是否展示分页
@@ -229,8 +232,10 @@ export default {
   },
   methods: {
     numerical(i) {
-      if (this.tableAjax.data && this.tableAjax.data.pageNum) {
-        return (this.tableAjax.data.pageNum - 1) * this.tableAjax.data.pageSize + i + 1;
+      let pageKey = this.tableAjax.data.pageKey
+      let sizeKey = this.tableAjax.data.sizeKey
+      if (this.tableAjax.data && this.tableAjax.data[pageKey]) {
+        return (this.tableAjax.data[pageKey] - 1) * this.tableAjax.data[sizeKey] + i + 1;
       } else {
         return ++i;
       }
@@ -245,6 +250,8 @@ export default {
       }
     },
     getList() {
+      let pageKey = this.tableAjax.data.pageKey
+      let sizeKey = this.tableAjax.data.sizeKey
       let posdata = Object.assign({}, this.tableAjax.data, this.tableSerach);
       let obj = {};
       if (this.tableAjax.method == "get") {
@@ -258,15 +265,15 @@ export default {
         obj = {
           url: this.tableAjax.url,
           method: this.tableAjax.method,
-          data: posdata,
+          data: qs.stringify(posdata),
           headers: this.readCookie("adminheaders")?JSON.parse(this.readCookie("adminheaders")):{}
         };
       }
       axios(obj)
         .then(res => {
           let data = res.data;
-          if (data.total > 9 && data.pageNum > 1 && data.list.length === 0) {
-            --this.tableAjax.data.pageNum;
+          if (data.total > 9 && data[pageKey] > 1 && data.list.length === 0) {
+            --this.tableAjax.data[pageKey];
             this.getList();
             return;
           }
@@ -284,11 +291,13 @@ export default {
         });
     },
     handleSizeChange(val) {
-      this.tableAjax.data.pageSize = val;
+      let sizeKey = this.tableAjax.data.sizeKey
+      this.tableAjax.data[sizeKey] = val;
       this.getList();
     },
     handleCurrentChange(val) {
-      this.tableAjax.data.pageNum = val;
+      let pageKey = this.tableAjax.data.pageKey
+      this.tableAjax.data[pageKey] = val;
       this.getList();
     },
     // 操作点击--横向点击

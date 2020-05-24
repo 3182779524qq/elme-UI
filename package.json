@@ -1,10 +1,13 @@
 {
   "name": "elme-ui",
   "description": "An ui project base on Vue.js ",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "author": "chenfujian",
   "license": "MIT",
-  "github": "https://github.com/3182779524qq/demojia",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:/3182779524qq/hhh-UI"
+  },
   "main": "dist/elme-ui.js",
   "private": false,
   "scripts": {

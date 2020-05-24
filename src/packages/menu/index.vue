@@ -51,21 +51,21 @@ export default {
     textColor: {
       type: String,
       default: function() {
-        return '#303133'
+        return "#303133";
       }
     },
     // 菜单的背景色（仅支持 hex 格式）
     backgroundColor: {
       type: String,
       default: function() {
-        return '#ffffff'
+        return "#ffffff";
       }
     },
     // 当前激活菜单的文字颜色（仅支持 hex 格式）
     activeColor: {
       type: String,
       default: function() {
-        return '#409EFF'
+        return "#409EFF";
       }
     }
   },
@@ -93,9 +93,14 @@ export default {
 /* .el-menu-item.is-active {
   background-color: #b86600 !important;
 } */
-  /* 二级菜单颜色 */
+/* 二级菜单颜色 */
 /* .el-menu--inline li {
   background-color: #b87700 !important;
   text-indent: 10px;
 } */
+</style>
+<style>
+.side_menu .el-menu {
+  border-right: none;
+}
 </style>
