@@ -175,8 +175,6 @@ export default {
       type: Object,
       default: function() {
         return {
-          pageKey:'pageNum',
-          sizeKey:'pageSize',
           pageSize: [10, 20, 50, 100],//每页多少条
           pageAlign: "right",//对齐方式
           ispagination: true,//是否展示分页
@@ -191,6 +189,9 @@ export default {
       type: Object,
       default: function() {
         return {
+
+          pageKey:'pageNum',
+          sizeKey:'pageSize',
           url: "",
           method: "post",
           data: {
@@ -232,10 +233,10 @@ export default {
   },
   methods: {
     numerical(i) {
-      let pageKey = this.tableAjax.data.pageKey
-      let sizeKey = this.tableAjax.data.sizeKey
-      if (this.tableAjax.data && this.tableAjax.data[pageKey]) {
-        return (this.tableAjax.data[pageKey] - 1) * this.tableAjax.data[sizeKey] + i + 1;
+      let pageKey = this.tableAjax.pageKey
+      let sizeKey = this.tableAjax.sizeKey
+      if (this.tableAjax.data && this.tableAjax[pageKey]) {
+        return (this.tableAjax[pageKey] - 1) * this.tableAjax[sizeKey] + i + 1;
       } else {
         return ++i;
       }
@@ -250,8 +251,8 @@ export default {
       }
     },
     getList() {
-      let pageKey = this.tableAjax.data.pageKey
-      let sizeKey = this.tableAjax.data.sizeKey
+      let pageKey = this.tableAjax.pageKey
+      let sizeKey = this.tableAjax.sizeKey
       let posdata = Object.assign({}, this.tableAjax.data, this.tableSerach);
       let obj = {};
       if (this.tableAjax.method == "get") {
@@ -273,7 +274,7 @@ export default {
         .then(res => {
           let data = res.data;
           if (data.total > 9 && data[pageKey] > 1 && data.list.length === 0) {
-            --this.tableAjax.data[pageKey];
+            --this.tableAjax[pageKey];
             this.getList();
             return;
           }
@@ -291,12 +292,12 @@ export default {
         });
     },
     handleSizeChange(val) {
-      let sizeKey = this.tableAjax.data.sizeKey
+      let sizeKey = this.tableAjax.sizeKey
       this.tableAjax.data[sizeKey] = val;
       this.getList();
     },
     handleCurrentChange(val) {
-      let pageKey = this.tableAjax.data.pageKey
+      let pageKey = this.tableAjax.pageKey
       this.tableAjax.data[pageKey] = val;
       this.getList();
     },

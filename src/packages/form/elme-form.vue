@@ -26,7 +26,7 @@
             :disabled="item.disabled?item.disabled:false"
             :maxlength="item.maxlength?item.maxlength:30"
             :placeholder="item.placeholder?item.placeholder:'请输入内容'"
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
           ></el-input>
         </template>
         <!-- 密码输入框 -->
@@ -36,7 +36,7 @@
             :disabled="item.disabled?item.disabled:false"
             :maxlength="item.maxlength?item.maxlength:30"
             :placeholder="item.placeholder?item.placeholder:'请输入内容'"
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
             autocomplete="on"
             show-password
           ></el-input>
@@ -44,7 +44,7 @@
         <!-- 下拉选择框 -->
         <template v-else-if="item.type=='select'">
           <el-select
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
             :multiple="item.multiple?item.multiple:false"
             :filterable="item.filterable?item.filterable:false"
             :disabled="item.disabled?item.disabled:false"
@@ -68,13 +68,13 @@
             :disabled="item.disabled?item.disabled:false"
             :maxlength="item.maxlength?item.maxlength:30"
             :placeholder="item.placeholder?item.placeholder:'请输入内容'"
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
           ></el-input>
         </template>
         <!-- 多选框 -->
         <template v-else-if="item.type=='checkbox'">
           <el-checkbox-group
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
             :disabled="item.disabled?item.disabled:false"
             :style="{ width:item.width?item.width+'px':'205px'}"
           >
@@ -88,7 +88,7 @@
         <!-- 单选框 -->
         <template v-else-if="item.type=='radio'">
           <el-radio-group
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
             :disabled="item.disabled?item.disabled:false"
             :style="{ width:item.width?item.width+'px':'205px'}"
           >
@@ -107,7 +107,7 @@
             value-format="yyyy-MM-dd"
             type="daterange"
             unlink-panels
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
             range-separator="至"
             start-placeholder="开始时间"
             end-placeholder="结束时间"
@@ -122,7 +122,7 @@
             :options="cityoptions"
             :props="cityprops"
             :placeholder="item.placeholder?item.placeholder:'请选择内容'"
-            v-model="outData[item.field]"
+            v-model="value[item.field]"
           ></el-cascader>
         </template>
         <!-- 图片上传 -->
@@ -134,7 +134,7 @@
             :on-success="item.callback"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="outData[item.field]" :src="outData[item.field]" />
+            <img v-if="value[item.field]" :src="value[item.field]" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </template>
@@ -169,6 +169,13 @@ export default {
     },
     //校验规则
     reformRule: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    },
+    //表单的值
+    value: {
       type: Object,
       default: function() {
         return {};
@@ -290,6 +297,9 @@ export default {
       }
       return isLt2M;
     },
+    checkForm(){
+      this.$emit("checkForm",this.submitForm())
+    },
     submitForm() {
       let flag = false;
       this.$refs[this.reform].validate(valid => {
@@ -300,7 +310,7 @@ export default {
         }
       });
       if (flag) {
-        return this.outData;
+        return true;
       } else {
         return false;
       }
