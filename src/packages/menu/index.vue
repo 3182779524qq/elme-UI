@@ -6,7 +6,7 @@
       :active-text-color="activeColor"
       :background-color="backgroundColor"
       router
-      :default-openeds="opens"
+      :unique-opened="onlyOne"
     >
       <mysubmenu :menuList="menuList"></mysubmenu>
     </el-menu>
@@ -22,8 +22,7 @@ export default {
   },
   data() {
     return {
-      collapse: false,
-      opens: []
+      oldActive: ''
     };
   },
   props: {
@@ -45,6 +44,20 @@ export default {
             title: "商家管理"
           }
         ];
+      }
+    },
+    // 二级页面的排除
+    excludeList:{
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
+    // 是否只展开一个
+    onlyOne: {
+      type: Boolean,
+      default: function() {
+        return false;
       }
     },
     // 菜单的文字颜色（仅支持 hex 格式）
@@ -71,7 +84,13 @@ export default {
   },
   computed: {
     onRoutes() {
-      return this.$route.path.replace("/", "");
+      let act = this.$route.path.replace("/", "")
+      if (this.excludeList.indexOf(act)>-1) {
+        return this.oldActive
+      }else{
+        this.oldActive = act
+        return act;
+      }
     }
   },
   created() {},
