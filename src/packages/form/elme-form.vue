@@ -25,12 +25,12 @@
             :style="{ width:item.width?item.width+'px':'205px'}"
             :disabled="item.disabled?item.disabled:false"
             :maxlength="item.maxlength?item.maxlength:30"
-            :placeholder="item.placeholder?item.placeholder:'请输入内容'"
+            :placeholder="item.placeholder?item.placeholder:'请输入'+item.name"
             v-model="value[item.field]"
           ></el-input>
         </template>
         <!-- 密码输入框 -->
-        <template v-if="item.type=='password'">
+        <template v-else-if="item.type=='password'">
           <el-input
             :style="{ width:item.width?item.width+'px':'205px'}"
             :disabled="item.disabled?item.disabled:false"
@@ -49,7 +49,7 @@
             :filterable="item.filterable?item.filterable:false"
             :disabled="item.disabled?item.disabled:false"
             :style="{ width:item.width?item.width+'px':'205px'}"
-            :placeholder="item.placeholder?item.placeholder:'请选择内容'"
+            :placeholder="item.placeholder?item.placeholder:'请选择'+item.name"
           >
             <el-option
               v-for="(item,index) in item.options"
@@ -126,7 +126,7 @@
           ></el-cascader>
         </template>
         <!-- 图片上传 -->
-        <template v-if="item.type=='image'">
+        <template v-else-if="item.type=='image'">
           <el-upload
             :action="item.upLoadUrl"
             :headers="item.headers"
@@ -137,6 +137,17 @@
             <img v-if="value[item.field]" :src="value[item.field]" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+        </template>
+        <!-- 多层级联动 -->
+        <template v-else-if="item.type=='cascader'">
+          <el-cascader
+            :disabled="item.disabled?item.disabled:false"
+            :style="{ width:item.width?item.width+'px':'205px'}"
+            :options="item.options"
+            :props="item.props"
+            :placeholder="item.placeholder?item.placeholder:'请选择'+item.name"
+            v-model="value[item.field]"
+          ></el-cascader>
         </template>
       </el-form-item>
     </div>

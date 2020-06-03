@@ -189,7 +189,7 @@ export default {
       type: Object,
       default: function() {
         return {
-
+          headers:{},
           pageKey:'pageNum',
           sizeKey:'pageSize',
           url: "",
@@ -241,15 +241,6 @@ export default {
         return ++i;
       }
     },
-    readCookie(name) {
-      let arr = null;
-      let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if (document.cookie && (arr = document.cookie.match(reg))) {
-        return unescape(arr[2]);
-      } else {
-        return null;
-      }
-    },
     getList() {
       let pageKey = this.tableAjax.pageKey
       let sizeKey = this.tableAjax.sizeKey
@@ -260,14 +251,14 @@ export default {
           url: this.tableAjax.url,
           method: this.tableAjax.method,
           params: posdata,
-          headers: this.readCookie("adminheaders")?JSON.parse(this.readCookie("adminheaders")):{}
+          headers: this.tableAjax.headers
         };
       } else {
         obj = {
           url: this.tableAjax.url,
           method: this.tableAjax.method,
           data: qs.stringify(posdata),
-          headers: this.readCookie("adminheaders")?JSON.parse(this.readCookie("adminheaders")):{}
+          headers: this.tableAjax.headers
         };
       }
       axios(obj)
