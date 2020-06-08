@@ -1,6 +1,6 @@
 <template>
   <el-form
-    :model="outData"
+    :model="value"
     :ref="reform"
     :label-width="labelWidth"
     class="my_el_form"
@@ -64,7 +64,7 @@
           <el-input
             :style="{ width:item.width?item.width+'px':'205px'}"
             type="textarea"
-            :autosize="{ minRows: 2, maxRows: 4}"
+            :autosize="{ minRows: item.minRows?item.minRows:2, maxRows: item.maxRows?item.maxRows:4}"
             :disabled="item.disabled?item.disabled:false"
             :maxlength="item.maxlength?item.maxlength:30"
             :placeholder="item.placeholder?item.placeholder:'请输入内容'"
