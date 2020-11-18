@@ -279,7 +279,8 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          this.tableAjax.callback(error.response)
+          // console.log(error);
         });
     },
     handleSizeChange(val) {
