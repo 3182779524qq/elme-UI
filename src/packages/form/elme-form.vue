@@ -6,6 +6,8 @@
     class="my_el_form"
     :rules="formRule"
     :label-position="labelPosition"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
     <div
       class="form_item"

@@ -6,6 +6,8 @@
       :header-cell-style="headercellstyle"
       :row-style="rowstyle"
       :cell-style="cellstyle"
+      v-bind="$attrs"
+      v-on="$listeners"
     >
       <!--是否展示多选框-->
       <el-table-column v-if="tableData.isMultiple" type="selection" width="55"></el-table-column>
